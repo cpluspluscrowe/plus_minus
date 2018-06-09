@@ -17,15 +17,10 @@ func transformInputToIntegers(input []string) []int {
 	return transformed
 }
 
-func main() {
-	reader := bufio.NewReaderSize(os.Stdin, 1024*1024)
-	_, _, _ = reader.ReadLine() // number of inputs
-	var strData, _, _ = reader.ReadLine()
-	var splitData = strings.Split(string(strData), " ")
+func getSignCounts(numbers []int) (int, int, int) {
 	var positive_count = 0
 	var zero_count = 0
 	var negative_count = 0
-	var numbers = transformInputToIntegers(splitData)
 	for _, number := range numbers {
 		if number > 0 {
 			positive_count += 1
@@ -35,8 +30,22 @@ func main() {
 			zero_count += 1
 		}
 	}
-	var total = float64(positive_count + zero_count + negative_count)
+	return positive_count, zero_count, negative_count
+}
+
+func printRatios(positive_count int, zero_count int, negative_count int, total float64) {
 	fmt.Println(float64(positive_count) / total)
 	fmt.Println(float64(negative_count) / total)
 	fmt.Println(float64(zero_count) / total)
+}
+
+func main() {
+	reader := bufio.NewReaderSize(os.Stdin, 1024*1024)
+	_, _, _ = reader.ReadLine() // number of inputs
+	var strData, _, _ = reader.ReadLine()
+	var splitData = strings.Split(string(strData), " ")
+	var numbers = transformInputToIntegers(splitData)
+	var positive_count, zero_count, negative_count int = getSignCounts(numbers)
+	var total = float64(positive_count + zero_count + negative_count)
+	printRatios(positive_count, zero_count, negative_count, total)
 }
